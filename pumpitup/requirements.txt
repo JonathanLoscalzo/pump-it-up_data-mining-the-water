@@ -18,3 +18,5 @@ catboost
 category_encoders
 matplotlib
 seaborn
+sklearn
+mlxtend
