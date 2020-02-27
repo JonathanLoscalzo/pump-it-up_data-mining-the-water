@@ -14,7 +14,7 @@ To train all model combinations, execute a similar code:
 But, How many combinations do we have?
 
 ```
-len(ParameterGrid(params_rf)) # 432 parameters!!!
+len(ParameterGrid(params_rf)) # 432!!!
 ```
 Of course, that is a lot of time. 
 
@@ -31,7 +31,7 @@ We could use hold-out or cross-validation methods for testing these hyperparamet
 
 Hold out is when we split up the dataset in train-test sets (sometimes train-valid-test sets). We fit with train set, and evaluate with test set.
 
-Cross-validation is when we split up our the dataset in k-folds. Then, we train a model with k-1 folds, and  evaluating each model with 1-fold; the process is repeted on each fold, so in the end we have k models trained.
+Cross-validation is when we split up our dataset in k-folds. Then, we train a model with k-1 folds, and  evaluating each model with 1-fold; the process is repeted on each fold, so in the end we have k models trained.
 
 We prefer use Hold-out rather that CV when we have a large dataset or to start building a model. CV is usually the preferred because it trains k models, and perform better on unseen data. 
 
