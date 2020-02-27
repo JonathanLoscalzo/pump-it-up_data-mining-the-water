@@ -153,7 +153,7 @@ To achieve our first model, we are going to use [cross_val_score](https://scikit
 
 ![evaluate_classifier.png](../references/images/evaluate_classifier.png)
 
-We are going to evaluate metrics over each of them, and select which performs better. In this case, we evaluate *accuracy*, although we know the problems related to imbalanced datasets.
+We are going to evaluate metrics over each of them, and select which performs better. In this case, we evaluate *accuracy*, although we know the issues related to imbalanced datasets.
 
 But wait, Why are we using the pipeline on each classifier? Transformers, as estimators, should be learnt from a training set and applied to test set (held out) for prediction; *Pipelines* makes this task easier! Every time you *fit* the full pipe, you will train transformers and the estimator! Remember: easy to reproduce is the key! The concept of fit transformers splitted from train and test set it is related to [data leakage](https://www.kaggle.com/alexisbcook/data-leakage), to capture the main concept we could explain that data leakage is related to avoid data leak from test sets into train sets. For instance, our numeric-pipe has a SimpleImputer transformer, which is used to impute values filling missing with the mean; the mean should be estimate only from TRAIN SET! It is easy to do with pipelines utils.
 
