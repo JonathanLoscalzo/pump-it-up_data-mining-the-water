@@ -27,13 +27,13 @@ If you would like to see a detail of all training, you may execute the code belo
 Jupyter shows it in a fancy way.
 
 ### 6. Evaluate with hyperparameters
-We could use hold-out or cross-validation methods for testing these hyperparameters. 
+We could use [hold-out](https://en.wikipedia.org/wiki/Cross-validation_(statistics)#Holdout_method) or [k-fold cross-validation](https://en.wikipedia.org/wiki/Cross-validation_(statistics)#k-fold_cross-validation) methods for testing these hyperparameters. 
 
 Hold out is when we split up the dataset in train-test sets (sometimes train-valid-test sets). We fit with train set, and evaluate with test set.
 
 Cross-validation is when we split up our dataset in k-folds. Then, we train a model with k-1 folds, and  evaluating each model with 1-fold; the process is repeted on each fold, so in the end we have k models trained.
 
-We prefer use Hold-out rather that CV when we have a large dataset or to start building a model. CV is usually the preferred because it trains k models, and perform better on unseen data. 
+We choose to Hold-out when we have a large dataset or start building a model. CV is usually the preferred because it trains k models, and perform better on unseen data. 
 
 To challenge CV, we stratify the train-test sets by target labels instead of randomize only. It will be a good exercise to stratify by categorical features too; *How could you do that?.* 
 
@@ -45,7 +45,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 ```
 
-> Note: our model performs a little bit better on unseen data with *best_estimator_* over hold-out (0.0005), but remember this is only to finish de flow.
+> Note: our model performs a little bit better on unseen data with *best_estimator_* over hold-out (0.0005), but remember this is only to finish the flow.
 
 We code a method that returns metrics which we want to evaluate. Remember: If we modularize, we will also use it with other models! [print_metrics](https://github.com/JonathanLoscalzo/pump-it-up_data-mining-the-water/blob/master/pumpitup/notebooks/utils.py)
 
@@ -66,9 +66,9 @@ accuracy: 0.8068054280175492
 1       0.29      0.63      0.40       665
 2       0.77      0.84      0.80      6886
 ```
-As we can see, *functional needs repair* is imbalanced, because the support is lower, and our model can not perform as well as over the other labels because it does not have an optimal precision. The model does not generalize over *target 1*.
+As we can see, *functional needs repair* is imbalanced, because the support is lower, and our model cannot perform as well as over the other labels because it does not have an optimal precision. So, The model does not generalize well over *target 1*.
 
-The accuracy is rounded at 0.80% on unseen data (variance) and 0.95% on train set (bias); we could say that our model is also overfitted. Please see [bias-variance tradeoff](https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff)
+The accuracy is rounded at 80% on unseen data (variance) and 95% on train set (bias); we could say that our model is also overfitted. Please see [bias-variance tradeoff](https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff)
 
 For now, we are not going to stop to fix the issue above because we would like to meet the premise "agile"!. In the next iteration we could try to solve it.
 
