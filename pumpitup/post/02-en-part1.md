@@ -1,18 +1,17 @@
 # How to solve a classification problem with a reusable pipeline workflow - 1
 # Choosing between ML models using pipes for code reuse
 While browsing on posts, we will able to find some *recipes* of how to start in the ML world, the popular *"Hello World!"*.
-Usually, them involved next steps: Data Gathering, Data Preparation, Train your Model, Evaluate it, Improve... At the end, depending of the type of solution, if it is a competition, we will submit the predictions and if it is a Real World Problem, we will continue with the deployment step. 
+Usually, they involved next steps: Data Gathering, Data Preparation, Train your Model, Evaluate it, Improve... At the end, depending on the type of solution, if it is a competition, we will submit the predictions and if it is a Real World Problem, we will continue with the deployment step. 
 
 Well, we say ourselves "Let's play with it" following the how-to steps. An hour later, we will end it up with big ball of mud, the well-known spaghetti code. Our *experiment* will finish with lack of reproducibility, error prone, nothing to be proud of.
 
 Furthermore, there are many hidden steps in our flow, such as Model Selection & Hyperparameter tuning, which won't appear in the deployment model (they are also important)
 
-*How to evolve our code to be ordered, reproducible, flexible (and other quality measures)?* We could get a modularized solution. *How to get it?* That will be solve with sklearn and pipeline utilities provided by it. Think the whole pipe as a big module, made up by other tiny pipes. Each pipe would have its purpose, such as *feature selection*, *feature transformation*, *prediction* and so on.
+*How to evolve our code to be ordered, reproducible, flexible (and other quality measures)?* We could get a modularized solution. *How to get it?* That will be solve by sklearn and its pipeline utilities. Think the whole pipe as a big module, made up by other tiny pipes. Each pipe would have its purpose, such as *feature selection*, *feature transformation*, *prediction* and so on.
 
 > The better you code today, the easier you will understand in the future.
 
-In this post, I will give an intuition of how to solve a classification problem by a reproducible and modular approach made up with sklearn and pipes.
-
+In this post, I will give an intuition of how to solve a classification problem by taking a reproducible and modular approach made up with sklearn and pipes.
 
 ### The Problem: *Pump it Up, Data Mining the Water Table*
 
@@ -21,9 +20,9 @@ We will build our approach with the problem which is being sponsored by [DataDri
 _______________
 
 ### 1. Analyzing the dataset
-A more general data analysis could be found in the challenge site [here](https://www.drivendata.org/competitions/7/pump-it-up-data-mining-the-water-table/page/25/). In this section, we avoid repeat the above investigation but it is a good practice to do it by ourselves to understand the data.
+A more general data analysis could be found in the challenge site [here](https://www.drivendata.org/competitions/7/pump-it-up-data-mining-the-water-table/page/25/). In this section, we avoid repeating the previous investigation but it is a good practice to do it by ourselves to understand the data.
 
-In general terms and for a first approximation, we will drop some features that seem to have similar information.
+In general terms and as first approximation, we will drop some features that seem to have similar information.
 In other words, we will reduce quantity of features to get a better model performance.
 
 We will use a derived technique of *feature interaction* to show which columns has redundant information, if it exists, we will drop it. 
@@ -43,9 +42,9 @@ For example:
 In the above example, *plain* will *interact* always with *land*, and so on. Therefore, the column *type* shows generalized information from *place* (which is a particular case). 
 In this case, the column *interaction* shows same cardinality as place, so we may decide to drop *type*.
 
-> FootNote: In tree based models, more cardinality will result in more splits, what that result in more complexity. In other iteration we could test if other techniques perform better. Anyway, exists other tricks to select or drop features such us *SelectKBest*, *SelectFromModel*, *WOE*, *IV*, and so on. I thought this *craft* technique were easy to keep representative features and let the algorithm figure out these groups. 
+> Note: In tree based models, more cardinality will result in more splits, what that result in more complexity. In other iteration we could test if other techniques perform better. Anyway, other tricks to select or drop features exists such us *SelectKBest*, *SelectFromModel*, *WOE*, *IV*, and so on. I think this *craft* technique was easy to keep representative features and let the algorithm figure out these groups. 
 
-To illustrate this technique with our dataset, we could see that *payment* and *payment_type* have different names but in the deep them are trying to represent the same. Thus, we concat the columns by '_' and the interaction result as: 
+To illustrate this technique with our dataset, we could see that *payment* and *payment_type* have different names but in the deep they are trying to represent the same. Thus, we concat the columns by '_' and the interaction result as: 
 ```
 'pay annually_annually', 
 'never pay_never pay', 
@@ -68,7 +67,7 @@ Performing the same process above for the other columns, we drop the following:
 
 ### 2. Lean Thinking? Build your first system quickly, then iterate.
 
-Following the advice from Andrew Ng, He always recommended made a solution as soon as possible, measuring our error, evaluate our model and then iterate. This concept is also related to Lean-StartUp methodology with the lemma Build-Measure-Learn. In a main way, it is to apply the agile methodology.
+Following the advice from Andrew Ng, He always recommend to come up with a solution as soon as possible, measuring our error, evaluate our model and then iterate. This concept is also related to Lean-StartUp methodology with the lemma Build-Measure-Learn. In a main way, it is to apply the agile methodology.
 
 The generalized concept is: 
 - *Build a model* asap. 
@@ -90,9 +89,11 @@ How can we do that? Now we will continue with next steps:
 ### 3. Automate the workflow: Pipelines!
 In a ML flow, some steps are often repetitive and them must apply on different stages, such as: feature selection or transformation. In other words, to predict over on unseen dataset, we must apply every preprocessing step (transformation) and then predict with our trained model.
 
-These transformation steps usually brings *"bad smells"* (and more if we use jupyter notebooks): our code is sparsing over every cell, and we forget the real execution order. Our code is error prone and low quality.
+These transformation steps usually brings *"bad smells"* (and more if we use jupyter notebooks): our code is sparsing over every cell, and we forget the real execution order. Our code is error prone and has low quality.
 
-Instead of sparse our code, we try to build *modules*, and other *modules* built by them, we will build clean code. In order to achieve this, we decide to build it with sklearn and pipelines facilities:
+<!-- Instead of sparse our code, we try to build *modules*, and other *modules* built by them, we will build clean code. In order to achieve this, we decide to build it with sklearn and pipelines facilities: -->
+
+If instead of sparse our code, we try to create modules, and also other modules made by them, we will be building clean code. In order to achieve this, we decide to create this modules with sklearn and its pipelines facilities.
 
 - *sklearn.pipeline.Pipeline*: to compose pipes, we could also use *make_pipeline* method.
 - *sklearn.pipeline.FeatureUnion*: to concat pipes.
@@ -149,6 +150,9 @@ The method above lets us build many pipelines with many classifiers! It is a bit
 > [OrdinalEncoder](https://contrib.scikit-learn.org/categorical-encoding/ordinal.html) in text pipe is from *category_encoders*. It is more powerful than LabelEncoder when we have unseen labels. 
 
 ### 4. Select a model at a glance
+
+Now that we have our pipeline up and running, we have to choose the model that will best fit our data to then be able to predict new cases.
+
 To achieve our first model, we are going to use [cross_val_score](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html) from sklearn:
 
 ![evaluate_classifier.png](../references/images/evaluate_classifier.png)
