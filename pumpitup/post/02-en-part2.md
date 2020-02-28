@@ -31,7 +31,7 @@ We could use [hold-out](https://en.wikipedia.org/wiki/Cross-validation_(statisti
 
 Hold out is when we split up the dataset in train-test sets (sometimes train-valid-test sets). We fit with train set, and evaluate with test set.
 
-Cross-validation is when we split up our dataset in k-folds. Then, we train a model with k-1 folds, and  evaluating each model with 1-fold; the process is repeted on each fold, so in the end we have k models trained.
+K fold Cross-validation is when we split up our dataset in k-folds. Then, we train a model with k-1 folds, and  evaluating each model with 1-fold; the process is repeted on each fold, so in the end we have k models trained.
 
 We choose to Hold-out when we have a large dataset or start building a model. CV is usually the preferred because it trains k models, and perform better on unseen data. 
 
